@@ -3,6 +3,16 @@
    [re-frame.core :as re-frame]))
 
 (re-frame/reg-sub
- ::name
+ ::phase
  (fn [db]
-   (:name db)))
+   (:phase db)))
+
+(re-frame/reg-sub
+ ::current-entry
+ (fn [db]
+   (:current-entry db)))
+
+(re-frame/reg-sub
+ ::entries
+ (fn [db]
+   (:entries db)))
