@@ -12,7 +12,9 @@
 (re-frame/reg-event-db
  ::add-entry
  (fn [db [_ txt]]
-   (let [new-entries (conj (:entries db) txt)]
+   (let [new-entries (if (empty? txt)
+                       (:entries db)
+                       (conj (:entries db) txt))]
      (-> db
          (assoc :entries new-entries)
          (assoc :current-entry "")))))
@@ -43,6 +45,7 @@
           (assoc :entry-b b)
           (assoc :entries remaining))
       (-> db
+          (assoc :entry-a (first entries))
           (assoc :phase :phase-result)))))
 
 (re-frame/reg-event-db

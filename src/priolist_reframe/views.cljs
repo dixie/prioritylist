@@ -9,7 +9,7 @@
   (let [current-entry (re-frame/subscribe [::subs/current-entry])
         emit-update-current-entry (fn [e] (re-frame/dispatch [::events/update-current-entry (-> e .-target .-value)]))
         emit-add-entry #(re-frame/dispatch [::events/add-entry @current-entry])]
-    [:div {:class "box"}
+    [:div {:class "block"}
      [:div {:class "columns"}
       [:div {:class "column"}
        [:input {:class "input"
@@ -19,38 +19,43 @@
                 :value @current-entry}]]
       [:div {:class "column"}
        [:button {:class "button is-success"
-                 :on-click emit-add-entry} "Add"]]]
+                 :on-click emit-add-entry} "Add Choice"]]]
      (map (fn [entry] [:div {:class ""} entry]) entries)]))
 
 (defn phase-entries-panel []
   (let [entries (re-frame/subscribe [::subs/entries])]
-     [:div
-      (entries-panel @entries)
-      [:button {:class "button is-primary"
-                :on-click #(re-frame/dispatch [::events/start-decide])} "Decide"]]))
-
+    [:div
+     [:h2 {:class "subtitle"} "Create list of choices"]
+     (entries-panel @entries)
+     [:button {:class "button is-primary"
+              :on-click #(re-frame/dispatch [::events/start-decide])} "Decide"]]))
 
 (defn phase-decide-panel []
   (let [entry-a (re-frame/subscribe [::subs/entry-a])
         entry-b (re-frame/subscribe [::subs/entry-b])]
-     [:div {:class "box"}
-      [:div {:class "button"
-             :on-click #(re-frame/dispatch [::events/select-a])} @entry-a]
-      [:div {:class "button"
-             :on-click #(re-frame/dispatch [::events/select-b])} @entry-b]]))
+    [:h2 {:class "subtitle"} "Dedice between two options"]
+    [:div {:class "block"}
+     [:div {:class "button is-large is-primary"
+            :on-click #(re-frame/dispatch [::events/select-a])} @entry-a]
+     [:div {:class "button is-large is-link"
+            :on-click #(re-frame/dispatch [::events/select-b])} @entry-b]]))
 
 (defn phase-result-panel []
   (let [entry-a (re-frame/subscribe [::subs/entry-a])]
-     [:div {:class "box"}
-      [:div @entry-a]]))
+    [:div
+     [:h2 {:class "subtitle"} "Winning choice"]
+     [:div {:class "block"} @entry-a]
+     [:button {:class "button is-primary"
+               :on-click #(re-frame/dispatch [::events/initialize-db])} "Restart"]]))
 
 (defn main-panel []
   (let [phase (re-frame/subscribe [::subs/phase])]
     [:div {:class "container"}
      [:div {:class "box"}
-      [:h1 {:class "title"} "Priority List"]
-      (case @phase
-        :phase-entries (phase-entries-panel)
-        :phase-decide (phase-decide-panel)
-        :phase-result (phase-result-panel)
-        :default (phase-entries-panel))]]))
+      [:h1 {:class "title"} "Choice Master"]
+      [:div
+       (case @phase
+         :phase-entries (phase-entries-panel)
+         :phase-decide (phase-decide-panel)
+         :phase-result (phase-result-panel)
+         :default (phase-entries-panel))]]]))
