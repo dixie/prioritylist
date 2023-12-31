@@ -16,3 +16,13 @@
  ::entries
  (fn [db]
    (:entries db)))
+
+(re-frame/reg-sub
+ ::entry-a
+ (fn [db]
+   (:entry-a db)))
+
+(re-frame/reg-sub
+ ::entry-b
+ (fn [db]
+   (:entry-b db)))
