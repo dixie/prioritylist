@@ -7,22 +7,25 @@
 
 (defn entries-panel [entries]
   (let [current-entry (re-frame/subscribe [::subs/current-entry])
-        gettext (fn [e] (-> e .-target .-value))
-        emit    (fn [e] (re-frame/dispatch [::events/update-current-entry (gettext e)]))]
+        emit-update-current-entry (fn [e] (re-frame/dispatch [::events/update-current-entry (-> e .-target .-value)]))
+        emit-add-entry #(re-frame/dispatch [::events/add-entry @current-entry])]
     [:div {:class "box"}
      [:div {:class "columns"}
       [:div {:class "column"}
-       [:input {:class "input" :type "text" :on-change emit :value @current-entry}]]
+       [:input {:class "input"
+                :type "text"
+                :on-change emit-update-current-entry
+                :value @current-entry}]]
       [:div {:class "column"}
-       [:button {:class "button is-success" :on-click #(re-frame/dispatch [::events/add-entry @current-entry])} "Add"]]]
+       [:button {:class "button is-success"
+                 :on-click emit-add-entry} "Add"]]]
      (map (fn [entry] [:div {:class ""} entry]) entries)]))
 
 (defn phase-entries-panel []
   (let [entries (re-frame/subscribe [::subs/entries])]
      [:div
       (entries-panel @entries)
-      [:button {:class "button is-primary"} "Decide"]
-      ]))
+      [:button {:class "button is-primary"} "Decide"]]))
 
 (defn main-panel []
   (let [phase (re-frame/subscribe [::subs/phase])]
