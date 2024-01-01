@@ -33,18 +33,19 @@
 (defn phase-decide-panel []
   (let [entry-a (re-frame/subscribe [::subs/entry-a])
         entry-b (re-frame/subscribe [::subs/entry-b])]
-    [:h2 {:class "subtitle"} "Dedice between two options"]
-    [:div {:class "block"}
-     [:div {:class "button is-large is-primary"
-            :on-click #(re-frame/dispatch [::events/select-a])} @entry-a]
-     [:div {:class "button is-large is-link"
-            :on-click #(re-frame/dispatch [::events/select-b])} @entry-b]]))
+    [:div
+     [:h2 {:class "subtitle"} "Dedice between two options"]
+     [:div {:class "block"}
+      [:div {:class "button is-large is-primary"
+             :on-click #(re-frame/dispatch [::events/select-a])} @entry-a]
+      [:div {:class "button is-large is-link"
+             :on-click #(re-frame/dispatch [::events/select-b])} @entry-b]]]))
 
 (defn phase-result-panel []
   (let [entry-a (re-frame/subscribe [::subs/entry-a])]
     [:div
      [:h2 {:class "subtitle"} "Winning choice"]
-     [:div {:class "block"} @entry-a]
+     [:div {:class "notification is-primary"} @entry-a]
      [:button {:class "button is-primary"
                :on-click #(re-frame/dispatch [::events/initialize-db])} "Restart"]]))
 
