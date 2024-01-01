@@ -1,15 +1,15 @@
 (ns priolist-reframe.events
   (:require
-   [re-frame.core :as re-frame]
+   [re-frame.core :as rf]
    [priolist-reframe.db :as db]
    ))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::initialize-db
  (fn [_ _]
    db/default-db))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::add-entry
  (fn [db [_ txt]]
    (let [new-entries (if (empty? txt)
@@ -19,13 +19,13 @@
          (assoc :entries new-entries)
          (assoc :current-entry "")))))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::update-current-entry
  (fn [db [_ txt]]
    (assoc db :current-entry txt)))
 
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::start-decide
  (fn [db [_ _]]
    (let [[a b & remaining] (:entries db)]
@@ -48,12 +48,12 @@
           (assoc :entry-a (first entries))
           (assoc :phase :phase-result)))))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::select-a
  (fn [db [_ _]]
    (process-selection db (:entry-a db))))
 
-(re-frame/reg-event-db
+(rf/reg-event-db
  ::select-b
  (fn [db [_ _]]
    (process-selection db (:entry-b db))))

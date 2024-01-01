@@ -1,28 +1,28 @@
 (ns priolist-reframe.subs
   (:require
-   [re-frame.core :as re-frame]))
+   [re-frame.core :as rf]))
 
-(re-frame/reg-sub
+(rf/reg-sub
  ::phase
  (fn [db]
    (:phase db)))
 
-(re-frame/reg-sub
+(rf/reg-sub
  ::current-entry
  (fn [db]
    (:current-entry db)))
 
-(re-frame/reg-sub
+(rf/reg-sub
  ::entries
  (fn [db]
    (:entries db)))
 
-(re-frame/reg-sub
+(rf/reg-sub
  ::entry-a
  (fn [db]
    (:entry-a db)))
 
-(re-frame/reg-sub
+(rf/reg-sub
  ::entry-b
  (fn [db]
    (:entry-b db)))
