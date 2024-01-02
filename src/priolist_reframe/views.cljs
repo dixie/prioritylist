@@ -22,7 +22,7 @@
 (defn phase-entries-panel []
   (let [entries (rf/subscribe [::subs/entries])]
     [:div
-     [:h2.subtitle "Create list of choices"]
+     [:h2.subtitle "Step 1/3: Your list of choices"]
      (entries-panel @entries)
      [:button.button.is-primary {:on-click #(rf/dispatch [::events/start-decide])} "Decide"]]))
 
@@ -30,7 +30,7 @@
   (let [entry-a (rf/subscribe [::subs/entry-a])
         entry-b (rf/subscribe [::subs/entry-b])]
     [:div
-     [:h2.subtitle "Dedice between two options"]
+     [:h2.subtitle "Step 2/3: Select one preferred from two choices"]
      [:div.block
       [:div.button.is-large.is-primary {:on-click #(rf/dispatch [::events/select-a])} @entry-a]
       [:div.button.is-large.is-link {:on-click #(rf/dispatch [::events/select-b])} @entry-b]]]))
@@ -38,7 +38,7 @@
 (defn phase-result-panel []
   (let [entry-a (rf/subscribe [::subs/entry-a])]
     [:div
-     [:h2.subtitle "Winning choice"]
+     [:h2.subtitle "Step 3/3: Winning choice"]
      [:div.notification.is-primary @entry-a]
      [:button.button.is-primary {:on-click #(rf/dispatch [::events/initialize-db])} "Restart"]]))
 
