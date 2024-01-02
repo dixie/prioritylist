@@ -46,7 +46,7 @@
   (let [phase (rf/subscribe [::subs/phase])]
     [:div.container
      [:div.box
-      [:h1.title "Choice Master"]
+      [:h1.title "Choice Terminator"]
        (case @phase
          :phase-entries (phase-entries-panel)
          :phase-decide (phase-decide-panel)
