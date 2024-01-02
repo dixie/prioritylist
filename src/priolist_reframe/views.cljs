@@ -4,7 +4,7 @@
    [priolist-reframe.events :as events]
    [priolist-reframe.subs :as subs]))
 
-(defn entries-panel [entries]
+(defn- entries-panel [entries]
   (let [current-entry (rf/subscribe [::subs/current-entry])
         emit-update-current-entry (fn [e] (rf/dispatch [::events/update-current-entry (-> e .-target .-value)]))
         emit-add-entry #(rf/dispatch [::events/add-entry @current-entry])]
