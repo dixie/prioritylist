@@ -37,7 +37,7 @@
          (assoc :current-entry "")))))
 
 (defn process-selection [db selected-entry]
-  (let [entries (conj (:entries db) selected-entry)
+  (let [entries (concat (:entries db) [selected-entry])
         [a b & remaining] entries]
     (if (> (count entries) 1)
       (-> db
