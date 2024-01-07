@@ -21,14 +21,15 @@
                        [:button.button.is-danger.is-one-fifths.is-small.is-light {:on-click #(rf/dispatch [::events/remove-entry entry])} "Remove"]]) entries)]))
 
 (defn phase-entries-panel []
-  (let [entries (rf/subscribe [::subs/entries])]
+  (let [entries (rf/subscribe [::subs/entries])
+        button-decide (if (> (count @entries) 1) :button.button.is-primary.is-fullwidth :button.button.is-primary.is-fullwidth.is-static)]
     [:div
      [:h2.subtitle "Step 1/3: Your list of choices"]
      (entries-panel @entries)
      [:div.columns
       [:div.column [:button.button.is-info.is-fullwidth "Import"]]
       [:div.column [:button.button.is-danger.is-fullwidth {:on-click #(rf/dispatch [::events/clear-entries])} "Clear"]]
-      [:div.column [:button.button.is-primary.is-fullwidth {:on-click #(rf/dispatch [::events/start-decide])} "Decide"]]]]))
+      [:div.column [button-decide {:on-click #(rf/dispatch [::events/start-decide])} "Decide"]]]]))
 
 (defn phase-decide-panel []
   (let [entry-a (rf/subscribe [::subs/entry-a])
