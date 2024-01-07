@@ -30,6 +30,12 @@
    (assoc db :entries [])))
 
 (rf/reg-event-db
+ ::remove-entry
+ (fn [db [_ txt]]
+   (let [new-entries (remove #(= % txt) (:entries db))]
+     (assoc db :entries new-entries))))
+
+(rf/reg-event-db
  ::start-decide
  (fn [db [_ _]]
    (let [[a b & remaining] (:entries db)]

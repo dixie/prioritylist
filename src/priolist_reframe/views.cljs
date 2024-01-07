@@ -18,7 +18,7 @@
       [:button.button.is-info {:on-click emit-add-entry} "Add Choice"]]
      (map (fn [entry] [:div.panel-block
                        [:div.tile entry]
-                       [:button.button.is-danger.is-one-fifths.is-small.is-light "Remove"]]) entries)]))
+                       [:button.button.is-danger.is-one-fifths.is-small.is-light {:on-click #(rf/dispatch [::events/remove-entry entry])} "Remove"]]) entries)]))
 
 (defn phase-entries-panel []
   (let [entries (rf/subscribe [::subs/entries])]
