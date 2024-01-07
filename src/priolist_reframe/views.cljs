@@ -27,7 +27,7 @@
      [:h2.subtitle "Step 1/3: Your list of choices"]
      (entries-panel @entries)
      [:div.columns
-      [:div.column [:button.button.is-info.is-fullwidth "Import"]]
+      [:div.column [:button.button.is-info.is-fullwidth {:on-click #(rf/dispatch [::events/start-import])} "Import"]]
       [:div.column [:button.button.is-danger.is-fullwidth {:on-click #(rf/dispatch [::events/clear-entries])} "Clear"]]
       [:div.column [button-decide {:on-click #(rf/dispatch [::events/start-decide])} "Decide"]]]]))
 
@@ -47,12 +47,24 @@
      [:div.notification.is-primary @entry-a]
      [:button.button.is-primary {:on-click #(rf/dispatch [::events/initialize-db])} "Restart"]]))
 
+(defn modal-import-panel []
+  (let [phase (rf/subscribe [::subs/phase])
+        modal (if (= @phase :phase-import) :div.modal.is-active :div.modal)]
+  [modal
+   [:div.modal-background
+    [:div.modal-content [:div.box
+                         [:label.label "Each line is one choice"]
+                         [:textarea.textarea {:placeholder "choice 1\nchoice 2\n...\n"}]
+                         [:button.button.is-link {:on-click #(rf/dispatch [::events/end-import])} "Add"]]]]]))
+
 (defn main-panel []
   (let [phase (rf/subscribe [::subs/phase])]
     [:div.container
+     (modal-import-panel)
      [:div.box
       [:h1.title "Choice Terminator"]
        (case @phase
+         :phase-import  (phase-entries-panel)
          :phase-entries (phase-entries-panel)
          :phase-decide (phase-decide-panel)
          :phase-result (phase-result-panel)

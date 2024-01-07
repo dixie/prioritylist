@@ -36,6 +36,17 @@
      (assoc db :entries new-entries))))
 
 (rf/reg-event-db
+ ::start-import
+ (fn [db [_ _]]
+   (assoc db :phase :phase-import)))
+
+
+(rf/reg-event-db
+ ::end-import
+ (fn [db [_ _]]
+   (assoc db :phase :phase-entries)))
+
+(rf/reg-event-db
  ::start-decide
  (fn [db [_ _]]
    (let [[a b & remaining] (:entries db)]
