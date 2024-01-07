@@ -8,32 +8,36 @@
   (let [current-entry (rf/subscribe [::subs/current-entry])
         emit-update-current-entry (fn [e] (rf/dispatch [::events/update-current-entry (-> e .-target .-value)]))
         emit-add-entry #(rf/dispatch [::events/add-entry @current-entry])]
-    [:div.block
-     [:div.columns
-      [:div.column
-       [:input.input {:type "text"
-                :on-key-down #(when (= (.-key %) "Enter") (rf/dispatch [::events/add-entry @current-entry]))
-                :on-change emit-update-current-entry
-                :value @current-entry}]]
-      [:div.column
-       [:button.button.is-success {:on-click emit-add-entry} "Add Choice"]]]
-     (map (fn [entry] [:div entry]) entries)]))
+    [:nav.panel
+     [:p.panel-heading "Choices"]
+     [:div.panel-block
+        [:input.input {:type "text"
+                       :on-key-down #(when (= (.-key %) "Enter") (rf/dispatch [::events/add-entry @current-entry]))
+                       :on-change emit-update-current-entry
+                       :value @current-entry}]
+      [:button.button.is-info {:on-click emit-add-entry} "Add Choice"]]
+     (map (fn [entry] [:div.panel-block
+                       [:div.tile entry]
+                       [:button.button.is-danger.is-one-fifths.is-small.is-light "Remove"]]) entries)]))
 
 (defn phase-entries-panel []
   (let [entries (rf/subscribe [::subs/entries])]
     [:div
      [:h2.subtitle "Step 1/3: Your list of choices"]
      (entries-panel @entries)
-     [:button.button.is-primary {:on-click #(rf/dispatch [::events/start-decide])} "Decide"]]))
+     [:div.columns
+      [:div.column [:button.button.is-info.is-fullwidth "Import"]]
+      [:div.column [:button.button.is-danger.is-fullwidth "Clear"]]
+      [:div.column [:button.button.is-primary.is-fullwidth {:on-click #(rf/dispatch [::events/start-decide])} "Decide"]]]]))
 
 (defn phase-decide-panel []
   (let [entry-a (rf/subscribe [::subs/entry-a])
         entry-b (rf/subscribe [::subs/entry-b])]
     [:div
      [:h2.subtitle "Step 2/3: Select one preferred from two choices"]
-     [:div.block
-      [:div.button.is-large.is-primary {:on-click #(rf/dispatch [::events/select-a])} @entry-a]
-      [:div.button.is-large.is-link {:on-click #(rf/dispatch [::events/select-b])} @entry-b]]]))
+     [:div.columns
+      [:div.column [:div.button.is-large.is-primary.is-fullwidth {:on-click #(rf/dispatch [::events/select-a])} @entry-a]]
+      [:div.column [:div.button.is-large.is-link.is-fullwidth {:on-click #(rf/dispatch [::events/select-b])} @entry-b]]]]))
 
 (defn phase-result-panel []
   (let [entry-a (rf/subscribe [::subs/entry-a])]
