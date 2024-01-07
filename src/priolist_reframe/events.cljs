@@ -24,6 +24,10 @@
  (fn [db [_ txt]]
    (assoc db :current-entry txt)))
 
+(rf/reg-event-db
+ ::clear-entries
+ (fn [db _ ]
+   (assoc db :entries [])))
 
 (rf/reg-event-db
  ::start-decide

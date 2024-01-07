@@ -27,7 +27,7 @@
      (entries-panel @entries)
      [:div.columns
       [:div.column [:button.button.is-info.is-fullwidth "Import"]]
-      [:div.column [:button.button.is-danger.is-fullwidth "Clear"]]
+      [:div.column [:button.button.is-danger.is-fullwidth {:on-click #(rf/dispatch [::events/clear-entries])} "Clear"]]
       [:div.column [:button.button.is-primary.is-fullwidth {:on-click #(rf/dispatch [::events/start-decide])} "Decide"]]]]))
 
 (defn phase-decide-panel []
