@@ -59,9 +59,10 @@
                          [:label.label "Each line is one choice"]
                          [:textarea.textarea {:on-change emit-update-import
                                               :placeholder "Some Choice 1\nSome Choice 2\nSome Choice 3\n...\n" :value @import-text}]
-                         [:button.button.is-link {:on-click #(rf/dispatch [::events/end-import])} "Import"]
-                         [:button.button.is-primary {:on-click emit-reset-import} "Clear"]
-                         [:button.button.is-danger {:on-click #(rf/dispatch [::events/cancel-import])} "Cancel"]]]]]))
+                         [:div.columns
+                          [:div.column [:button.button.is-link.is-fullwidth {:on-click #(rf/dispatch [::events/end-import])} "Import"]]
+                          [:div.column [:button.button.is-primary.is-fullwidth {:on-click emit-reset-import} "Clear"]]
+                          [:div.column [:button.button.is-danger.is-fullwidth {:on-click #(rf/dispatch [::events/cancel-import])} "Cancel"]]]]]]]))
 
 (defn main-panel []
   (let [phase (rf/subscribe [::subs/phase])]
