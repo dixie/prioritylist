@@ -49,13 +49,19 @@
 
 (defn modal-import-panel []
   (let [phase (rf/subscribe [::subs/phase])
+        import-text (rf/subscribe [::subs/import-text])
+        emit-update-import (fn [e] (rf/dispatch [::events/update-import-text (-> e .-target .-value)]))
+        emit-reset-import  (fn [_] (rf/dispatch [::events/update-import-text ""]))
         modal (if (= @phase :phase-import) :div.modal.is-active :div.modal)]
   [modal
    [:div.modal-background
     [:div.modal-content [:div.box
                          [:label.label "Each line is one choice"]
-                         [:textarea.textarea {:placeholder "choice 1\nchoice 2\n...\n"}]
-                         [:button.button.is-link {:on-click #(rf/dispatch [::events/end-import])} "Add"]]]]]))
+                         [:textarea.textarea {:on-change emit-update-import
+                                              :placeholder "Some Choice 1\nSome Choice 2\nSome Choice 3\n...\n" :value @import-text}]
+                         [:button.button.is-link {:on-click #(rf/dispatch [::events/end-import])} "Import"]
+                         [:button.button.is-primary {:on-click emit-reset-import} "Clear"]
+                         [:button.button.is-danger {:on-click #(rf/dispatch [::events/cancel-import])} "Cancel"]]]]]))
 
 (defn main-panel []
   (let [phase (rf/subscribe [::subs/phase])]

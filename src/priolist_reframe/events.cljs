@@ -1,5 +1,6 @@
 (ns priolist-reframe.events
   (:require
+   [clojure.string :as str]
    [re-frame.core :as rf]
    [priolist-reframe.db :as db]
    ))
@@ -18,6 +19,11 @@
      (-> db
          (assoc :entries new-entries)
          (assoc :current-entry "")))))
+
+(rf/reg-event-db
+ ::update-import-text
+ (fn [db [_ txt]]
+   (assoc db :import-text txt)))
 
 (rf/reg-event-db
  ::update-current-entry
@@ -40,9 +46,16 @@
  (fn [db [_ _]]
    (assoc db :phase :phase-import)))
 
-
 (rf/reg-event-db
  ::end-import
+ (fn [db [_ _]]
+   (let [added-entries (str/split-lines (:import-text db))
+         new-entries (:entries db)]
+     (-> db (assoc :entries (concat new-entries added-entries))
+            (assoc :phase :phase-entries)))))
+
+(rf/reg-event-db
+ ::cancel-import
  (fn [db [_ _]]
    (assoc db :phase :phase-entries)))
 

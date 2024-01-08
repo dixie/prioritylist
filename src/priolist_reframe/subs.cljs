@@ -13,6 +13,11 @@
    (:current-entry db)))
 
 (rf/reg-sub
+ ::import-text
+ (fn [db]
+   (:import-text db)))
+
+(rf/reg-sub
  ::entries
  (fn [db]
    (:entries db)))
