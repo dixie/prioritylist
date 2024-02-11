@@ -7,13 +7,18 @@ but it is quite easy to select between two. Therefore you enter into app list of
 choices you want to select one from. Then it will present you always two until
 all except one are eliminated.
 
-List of choices:
+## List of choices:
+
 ![Screenshot step 1](/img/step-1.png)
 
 Elimination of one from two:
+
+## Elimination of one from two:
+
 ![Screenshot step 2](/img/step-2.png)
 
-Result:
+## Result:
+
 ![Screenshot step 3](/img/step-3.png)
     
 ## Getting Started
