@@ -1,8 +1,21 @@
 # priolist-reframe
 
-A [re-frame](https://github.com/day8/re-frame) application designed to ... well, that part is up to
-you.
+A [prioritylist](https://github.com/dixie/prioritylist) simple web application
+(based on re-frame template) designed to help with deciding what to do next.
+Idea is very trivial, for humans is it s not easy to select one item from many,
+but it is quite easy to select between two. Therefore you enter into app list of
+choices you want to select one from. Then it will present you always two until
+all except one are eliminated.
 
+List of choices:
+![Screenshot step 1](/img/images/step-1.png)
+
+Elimination of one from two:
+![Screenshot step 2](/img/images/step-2.png)
+
+Result:
+![Screenshot step 3](/img/images/step-3.png)
+    
 ## Getting Started
 
 ### Project Overview
@@ -11,14 +24,12 @@ you.
 [Single Page Application (SPA)](https://en.wikipedia.org/wiki/Single-page_application)
 * Languages
   - Front end is [ClojureScript](https://clojurescript.org/) with ([re-frame](https://github.com/day8/re-frame))
-  - CSS compilation is [Garden](https://github.com/noprompt/garden) with [Spade](https://github.com/dhleong/spade)
 * Dependencies
   - UI framework: [re-frame](https://github.com/day8/re-frame)
   ([docs](https://github.com/day8/re-frame/blob/master/docs/README.md),
   [FAQs](https://github.com/day8/re-frame/blob/master/docs/FAQs/README.md)) ->
   [Reagent](https://github.com/reagent-project/reagent) ->
   [React](https://github.com/facebook/react)
-  - CSS rendering: [Garden](https://github.com/noprompt/garden)
 * Build tools
   - CLJS compilation, dependency management, REPL, & hot reload: [`shadow-cljs`](https://github.com/thheller/shadow-cljs)
 * Development tools
